@@ -30,9 +30,7 @@ function App() {
 
   const handleColorChange = (index, color) => {
     setTodos((prevTodos) =>
-      prevTodos.map((todo, i) =>
-        i === index ? { ...todo, color } : todo
-      )
+      prevTodos.map((todo, i) => (i === index ? { ...todo, color } : todo))
     );
   };
 
@@ -120,8 +118,3 @@ function App() {
 }
 
 export default App;
-
-
-
-
-
