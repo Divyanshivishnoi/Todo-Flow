@@ -6,7 +6,7 @@ import TodoFilters from "./components/TodoFilters";
 function App() {
   const [todos, setTodos] = useState([]);
   const [filter, setFilter] = useState("all");
-  const [colorFilter, setColorFilter] = useState(null);
+  const [colorFilters, setColorFilters] = useState([]);
 
   const handleDelete = (index) => {
     setTodos(todos.filter((todo, i) => i !== index));
@@ -34,6 +34,14 @@ function App() {
     );
   };
 
+  const toggleColorFilter = (color) => {
+    setColorFilters((prevColors) =>
+      prevColors.includes(color)
+        ? prevColors.filter((c) => c !== color)
+        : [...prevColors, color]
+    );
+  };
+
   const filteredTodos = todos.filter((todo) => {
     const matchesFilter =
       filter === "all" ||
@@ -41,7 +49,8 @@ function App() {
       (filter === "completed" && todo.completed);
 
     const matchesColor =
-      !colorFilter || (todo.color && todo.color === colorFilter);
+      colorFilters.length === 0 ||
+      (todo.color && colorFilters.includes(todo.color));
 
     return matchesFilter && matchesColor;
   });
@@ -52,7 +61,7 @@ function App() {
         Todo App
       </h1>
 
-      {/* Input */}
+      
       <TodoInput todos={todos} setTodos={setTodos} />
 
       <ul className="mt-6 bg-white shadow-lg rounded-lg p-4">
@@ -112,9 +121,13 @@ function App() {
       </h2>
 
       {/* Todo Filters */}
-      <TodoFilters setFilter={setFilter} setColorFilter={setColorFilter} />
+      <TodoFilters
+        setFilter={setFilter}
+        toggleColorFilter={toggleColorFilter}
+      />
     </div>
   );
 }
 
-export default App;
+export default App;
+
